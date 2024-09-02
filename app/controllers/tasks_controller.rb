@@ -2,28 +2,32 @@ class TasksController < ApplicationController
 
   skip_before_action :verify_authenticity_token, only: [:create, :update]
 
-  def create
-    task = Task.new(task_params)
+  before_action :authenticate_user!
 
-    if task.save
-      render json: { message: 'Task created successfully', task: task }, status: :created
+  def create
+    @task = current_user.tasks.new(task_params)
+    if @task.save
+      render json: @task, status: :created
     else
-      render json: { errors: task.errors.full_messages }, status: :unprocessable_entity
+      render json: @task.errors, status: :unprocessable_entity
     end
   end
 
   def update
-    task = Task.find(params[:id])
-    if task.update(task_params)
-      render json: task, status: :ok
+    @task = current_user.tasks.find(params[:id])
+    if @task.update(task_params)
+      render json: @task
     else
-      render json: { errors: task.errors.full_messages }, status: :unprocessable_entity
+      render json: @task.errors, status: :unprocessable_entity
     end
   end
 
   private
 
   def task_params
-    params.require(:task).permit(:title, :description, :assign_date, :due_date, :status, :priority, :assigned_user)
+    params.require(:task).permit(:task_title, :description, :assign_date, :due_date, :status, :priority, :assignedUser)
   end
 end
+
+
+# task_title   assignedUser
