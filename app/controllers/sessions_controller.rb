@@ -19,3 +19,4 @@ class SessionsController < ApplicationController
       JWT.encode(payload, secret_key, 'HS256')
     end
 end
+
