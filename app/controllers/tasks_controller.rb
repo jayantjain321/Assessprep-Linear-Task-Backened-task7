@@ -7,7 +7,7 @@ class TasksController < ApplicationController
   def create
     @task = current_user.tasks.new(task_params)
     if @task.save
-      render json: @task, status: :created
+      render json: { message: 'Task created successfully', task: @task }, status: :created
     else
       render json: @task.errors, status: :unprocessable_entity
     end
@@ -22,12 +22,19 @@ class TasksController < ApplicationController
     end
   end
 
+  def my_tasks
+    tasks = current_user.tasks
+    render json: tasks
+  end
+
+  def index
+    tasks = Task.all
+    render json: tasks
+  end
+
   private
 
   def task_params
     params.require(:task).permit(:task_title, :description, :assign_date, :due_date, :status, :priority, :assignedUser)
   end
 end
-
-
-# task_title   assignedUser
