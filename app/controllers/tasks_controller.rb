@@ -5,20 +5,20 @@ class TasksController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    @task = current_user.tasks.new(task_params)
-    if @task.save
-      render json: { message: 'Task created successfully', task: @task }, status: :created
+    task = current_user.tasks.new(task_params)
+    if task.save
+      render json: { message: 'Task created successfully', task: task }, status: :created
     else
-      render json: @task.errors, status: :unprocessable_entity
+      render json: task.errors, status: :unprocessable_entity
     end
   end
 
   def update
-    @task = current_user.tasks.find(params[:id])
-    if @task.update(task_params)
-      render json: @task
+    task = current_user.tasks.find(params[:id])
+    if task.update(task_params)
+      render json: task
     else
-      render json: @task.errors, status: :unprocessable_entity
+      render json: task.errors, status: :unprocessable_entity
     end
   end
 
