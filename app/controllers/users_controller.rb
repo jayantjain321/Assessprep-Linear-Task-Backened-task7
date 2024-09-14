@@ -16,6 +16,11 @@ class UsersController < ApplicationController
       users = User.all
       render json: users
     end
+
+    def usersProject
+      projects = current_user.projects
+      render json: {projects: projects}, status: :ok
+    end
     
     private
     

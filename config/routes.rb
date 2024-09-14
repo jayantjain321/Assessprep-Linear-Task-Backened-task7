@@ -12,9 +12,26 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
+  #task
   resources :tasks, only: [:create, :update, :index]
+  get 'task/:id/comments', to: 'tasks#TaskComments'
+
+  #user
   resources :users, only: [:create, :index]
-  get 'my_tasks', to: 'tasks#my_tasks'
+  get 'users/projects', to: 'users#usersProject'
+  
+  #Comment
+  resources :comments, only: [:update, :destroy]
+  resources :tasks do
+    resources :comments, only: [:create]
+  end
+
+  #Project
+  resources :projects, only: [:show, :update, :destroy]
+  resources :users do
+    resources :projects, only: [:create]
+  end
+
 
   post 'login', to: 'sessions#create'
   
