@@ -28,7 +28,8 @@ Rails.application.routes.draw do
 
   #user
   resources :users, only: [:create, :index]
-  get 'users/projects', to: 'users#usersProject'
+  get 'users/projects', to: 'users#userProjects'
+  get 'users/tasks', to: 'users#userTasks'
   
   #Comment
   resources :comments, only: [:update, :destroy]
