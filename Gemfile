@@ -40,15 +40,15 @@ gem "bootsnap", require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
-group :development, :test do
+group :development, :production, :test do
   # Use SQLite for development and test environments
   gem "pg"
 end
 
-group :production do
-  # Use PostgreSQL for production environment
-  gem "pg"
-end
+# group :production do
+#   # Use PostgreSQL for production environment
+#   gem "pg"
+# end
 
 gem 'dotenv-rails', groups: [:development, :test]
 
