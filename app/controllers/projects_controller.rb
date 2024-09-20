@@ -7,7 +7,6 @@ class ProjectsController < ApplicationController
     if user
       project = user.projects.new(project_params)
       if project.save
-        user.projects << project
         render json: { message: 'Project Created Successfully', project: project }, status: :created
       else
         render json: project.errors, status: :unprocessable_entity

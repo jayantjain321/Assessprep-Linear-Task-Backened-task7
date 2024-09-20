@@ -55,11 +55,11 @@ production:
   adapter: postgresql
   encoding: unicode
   pool: 15
-  database: <%= ENV['PG_DATABASE_PRODUCTION'] %>
-  username: <%= ENV['PG_USERNAME_PRODUCTION'] %>
-  password: <%= ENV['PG_PASSWORD_PRODUCTION'] %>
-  host: <%= ENV['PG_HOST_PRODUCTION'] %>
-  port: <%= ENV['PG_PORT_PRODUCTION'] %>
+  database: mysite_l97b
+  username: mysite
+  password: XPAumr5J9JjUptcx2Je0IZlmGYnDnH1i
+  host: dpg-crklgirv2p9s73e3mb70-a.oregon-postgres.render.com
+  port: 5432
 
 
 

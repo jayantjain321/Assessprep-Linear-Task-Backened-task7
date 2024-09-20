@@ -3,7 +3,7 @@ class Task < ApplicationRecord
   has_many :comments, dependent: :destroy
   belongs_to :project
   
-  validates :task_title, presence: true, length: { maximum: 255 }
+  validates :task_title, presence: true, uniqueness: true, length: { maximum: 255 }
   validates :description, presence: true, length: { maximum: 1000 }
   validates :assign_date, presence: true
   validates :due_date, presence: true
