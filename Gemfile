@@ -31,6 +31,10 @@ gem 'devise'
 
 gem 'rack-cors'
 
+gem 'kaminari'
+
+gem 'paranoia', '~> 3.0'
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
@@ -44,11 +48,6 @@ group :development, :production, :test do
   # Use SQLite for development and test environments
   gem "pg"
 end
-
-# group :production do
-#   # Use PostgreSQL for production environment
-#   gem "pg"
-# end
 
 gem 'dotenv-rails', groups: [:development, :test]
 

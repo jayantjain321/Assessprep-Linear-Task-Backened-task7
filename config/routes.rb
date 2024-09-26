@@ -22,28 +22,49 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
+  #users
+  namespace :api do
+    namespace :v1 do
+      resources :users, only: [:create, :index]
+      get 'users/projects', to: 'users#userProjects'
+      get 'users/tasks', to: 'users#userTasks'
+    end
+  end
+
   #task
-  resources :tasks, only: [:create, :update, :index]
-  get 'task/:id/comments', to: 'tasks#TaskComments'
-
-  #user
-  resources :users, only: [:create, :index]
-  get 'users/projects', to: 'users#userProjects'
-  get 'users/tasks', to: 'users#userTasks'
+  namespace :api do
+    namespace :v1 do
+      resources :tasks, only: [:create, :update, :index, :destroy]
+      get 'task/:id/comments', to: 'tasks#TaskComments'
+    end
+  end
   
-  #Comment
-  resources :comments, only: [:update, :destroy]
-  resources :tasks do
-    resources :comments, only: [:create]
+  # Comment
+  namespace :api do
+    namespace :v1 do
+      resources :comments, only: [:update, :destroy]
+      resources :tasks do
+        resources :comments, only: [:create]
+      end
+    end
   end
 
-  #Project
-  resources :projects, only: [:show, :update, :destroy]
-  resources :users do
-    resources :projects, only: [:create]
+  # Project
+  namespace :api do
+    namespace :v1 do
+      resources :projects, only: [:show, :update, :destroy, :index]
+      resources :users do
+        resources :projects, only: [:create]
+      end
+    end
   end
 
-
-  post 'login', to: 'sessions#create'
+  #refresh-token and login
+  namespace :api do
+    namespace :v1 do
+      post 'login', to: 'sessions#create'
+      post 'refresh', to: 'sessions#refresh_token'
+    end
+  end
   
 end

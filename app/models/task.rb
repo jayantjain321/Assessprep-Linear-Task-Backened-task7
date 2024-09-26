@@ -1,4 +1,7 @@
 class Task < ApplicationRecord
+  
+  acts_as_paranoid
+
   belongs_to :user
   has_many :comments, dependent: :destroy
   belongs_to :project
@@ -9,6 +12,6 @@ class Task < ApplicationRecord
   validates :due_date, presence: true
   validates :status, presence: true, inclusion: { in: %w[Todo Done InProgress InDevReview] }
   validates :priority, presence: true, inclusion: { in: %w[Urgent High Low] }
-  validates :assignedUser, presence: true
+  validates :assigned_user, presence: true
 end
 
