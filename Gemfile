@@ -35,6 +35,9 @@ gem 'kaminari'
 
 gem 'paranoia', '~> 3.0'
 
+gem 'cancancan'
+
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 

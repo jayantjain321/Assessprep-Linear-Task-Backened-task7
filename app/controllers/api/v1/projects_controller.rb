@@ -3,6 +3,8 @@ module Api
   module V1
     class ProjectsController < ApplicationController
 
+      include Restoreable
+
       before_action :authenticate_user!
     
       def create

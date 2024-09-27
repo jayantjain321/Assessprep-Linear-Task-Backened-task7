@@ -3,14 +3,16 @@ module Api
   module V1
     class TasksController < ApplicationController
 
+      include Restoreable
+
       before_action :authenticate_user!
     
       def create
-        user = User.find_by(id: params[:user_id])
+        assigned_user = User.find_by(id: params[:assigned_user_id])
         project = Project.find_by(id: params[:project_id])
       
-        if user.nil?
-          render json: { error: 'User not found' }, status: :not_found
+        if assigned_user.nil?
+          render json: { error: 'Assigned user not found' }, status: :not_found
           return
         end
       
@@ -19,7 +21,7 @@ module Api
           return
         end
       
-        task = Task.new(task_params.merge(user_id: user.id, project_id: project.id))
+        task = Task.new(task_params.merge(user_id: current_user.id, assigned_user_id: assigned_user.id, project_id: project.id))
       
         if task.save
           render json: { message: 'Task created successfully', task: task }, status: :created
@@ -27,15 +29,21 @@ module Api
           render json: { errors: task.errors.full_messages }, status: :unprocessable_entity
         end
       end
-    
+      
       def update
         task = Task.find_by(id: params[:id])
-        if task.nil?
-          render json: { error: 'Task not found' }, status: :not_found
-        elsif task.update(task_params)
-          render json: task
+        if task
+          if task.user_id == current_user.id
+            if task.update(task_params)
+              render json: { message: 'Task updated successfully', task: task }, status: :ok
+            else
+              render json: { errors: task.errors.full_messages }, status: :unprocessable_entity
+            end
+          else
+            render json: { error: 'You are not authorized to update this Task' }, status: :forbidden
+          end
         else
-          render json: task.errors, status: :unprocessable_entity
+          render json: { error: 'Task not found' }, status: :not_found
         end
       end
     
@@ -67,7 +75,7 @@ module Api
       private
     
       def task_params
-        params.require(:task).permit(:task_title, :description, :assign_date, :due_date, :status, :priority, :assigned_user)
+        params.require(:task).permit(:task_title, :description, :assign_date, :due_date, :status, :priority)
       end
     end    
   end

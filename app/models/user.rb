@@ -7,4 +7,5 @@ class User < ApplicationRecord
 
     has_and_belongs_to_many :projects
     has_many :tasks, dependent: :destroy
+    has_many :comments, dependent: :destroy
 end
