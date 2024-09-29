@@ -36,10 +36,10 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :tasks, only: [:create, :update, :index, :destroy] do
         member do
-          put 'restore' # Defines a route for restoring a specific task with :id
+          put 'restore'
         end
       end
-      get 'task/:id/comments', to: 'tasks#TaskComments'
+      get 'task/:id/comments', to: 'tasks#task_comments'
     end
   end
 
@@ -48,7 +48,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :comments, only: [:update, :destroy] do
         member do
-          put 'restore' # Defines a route for restoring a specific comment with :id
+          put 'restore'
         end
       end
       resources :tasks do
@@ -62,7 +62,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :projects, only: [:show, :update, :destroy, :index] do
         member do
-          put 'restore' # Defines a route for restoring a specific project with :id
+          put 'restore'
         end
       end
       resources :users do
@@ -71,13 +71,12 @@ Rails.application.routes.draw do
     end
   end
 
-
   #refresh-token and login
   namespace :api do
     namespace :v1 do
       post 'login', to: 'sessions#create'
+      post 'logout', to: 'sessions#logout'
       post 'refresh', to: 'sessions#refresh_token'
     end
-  end
-  
+  end  
 end

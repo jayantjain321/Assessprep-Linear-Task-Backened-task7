@@ -9,7 +9,7 @@ module Api
         user = User.find_by(email: params[:email])
         if user && user.authenticate(params[:password])
           access_token = encode_token({ user_id: user.id, exp: 12.hours.from_now.to_i })
-          refresh_token = encode_token({ user_id: user.id, exp: 1.day.from_now.to_i })
+          refresh_token = encode_token({ user_id: user.id, exp: 12.hours.from_now.to_i })
           render json: { 
             access_token: access_token, 
             refresh_token: refresh_token, 
@@ -44,6 +44,12 @@ module Api
         else
           render json: { error: 'Token is missing' }, status: :unauthorized
         end
+      end
+
+      def logout
+        # The logout process is primarily handled on the client side.
+        # Inform the client to remove JWT tokens from storage.
+        render json: { message: 'Logged out successfully' }, status: :ok
       end
     
       private

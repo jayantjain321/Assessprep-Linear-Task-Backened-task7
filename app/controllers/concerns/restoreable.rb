@@ -6,13 +6,13 @@ module Restoreable
     end
   
     def restore
-        Rails.logger.debug "Restoring resource: #{resource_name} with ID: #{params[:id]}"
-        if @resource && @resource.deleted_at.present?
-          @resource.restore
-          render json: { message: "#{resource_name} successfully restored.", project: @resource }, status: :ok
-        else
-          render json: { error: "#{resource_name} not found or not deleted" }, status: :not_found
-        end
+      Rails.logger.debug "Restoring resource: #{resource_name} with ID: #{params[:id]}"
+      if @resource && @resource.deleted_at.present?
+        @resource.restore
+        render json: { message: "#{resource_name} successfully restored.", resource: @resource }, status: :ok
+      else
+        render json: { error: "#{resource_name} not found or not deleted" }, status: :not_found
+      end
     end
   
     private
