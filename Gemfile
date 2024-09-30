@@ -49,7 +49,8 @@ gem "bootsnap", require: false
 
 group :development, :production, :test do
   # Use SQLite for development and test environments
-  gem "pg"
+  gem 'pg', '1.5.8'
+
 end
 
 gem 'dotenv-rails', groups: [:development, :test]
