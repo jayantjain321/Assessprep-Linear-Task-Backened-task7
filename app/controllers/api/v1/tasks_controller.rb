@@ -17,11 +17,8 @@ module Api
           render json: { error: 'Assigned user not found' }, status: :not_found
           return
         end
-      
-        if project.nil?
-          render json: { error: 'Project not found' }, status: :not_found
-          return
-        end
+
+        raise ProjectNotFoundError.new if project.nil?
 
         task = Task.new(task_params.merge(user_id: current_user.id, assigned_user_id: assigned_user.id, project_id: project.id))
         task.save!
