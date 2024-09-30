@@ -37,15 +37,9 @@ module Api
       def decode_token
         if request.headers['Authorization'].present?
           token = request.headers['Authorization'].split(' ').last
-          begin
-            decoded_token = JWT.decode(token, Rails.application.credentials.secret_key_base, true, algorithm: 'HS256')
-            user_id = decoded_token[0]['user_id']
-            User.find_by(id: user_id) || raise(ActiveRecord::RecordNotFound)
-          rescue JWT::ExpiredSignature
-            raise JWT::ExpiredSignature
-          rescue JWT::DecodeError
-            raise JWT::DecodeError
-          end
+          decoded_token = JWT.decode(token, Rails.application.credentials.secret_key_base, true, algorithm: 'HS256')
+          user_id = decoded_token[0]['user_id']
+          User.find_by(id: user_id) || raise(ActiveRecord::RecordNotFound)
         else
           raise StandardError.new('Token is missing')
         end
