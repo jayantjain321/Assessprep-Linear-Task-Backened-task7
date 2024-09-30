@@ -39,6 +39,11 @@ module Api
         raise e
       end
 
+      def index
+        comments = Comment.page(params[:page]).per(10)
+        render json: { comments: comments }, status: :ok
+      end
+
       private
 
       def find_comment

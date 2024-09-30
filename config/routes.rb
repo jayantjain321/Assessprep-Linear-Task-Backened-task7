@@ -46,7 +46,7 @@ Rails.application.routes.draw do
   # Comments
   namespace :api do
     namespace :v1 do
-      resources :comments, only: [:update, :destroy] do
+      resources :comments, only: [:update, :destroy, :index] do
         member do
           put 'restore'
         end
