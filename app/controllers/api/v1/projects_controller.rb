@@ -43,7 +43,7 @@ module Api
       end
 
       def index
-        projects = Project.page(params[:page]).per(10)
+        projects = Project.page(params[:page]).per(10)  #displaying large datasets in pagination
         render json: { projects: projects }, status: :ok
       end
 

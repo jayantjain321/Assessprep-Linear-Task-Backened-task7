@@ -16,7 +16,7 @@ module Api
       end
   
       def index
-        users = User.page(params[:page]).per(10)
+        users = User.page(params[:page]).per(10)  #Displaying large datasets in pagination
         render json: {users: users}, status: :ok
       end
   

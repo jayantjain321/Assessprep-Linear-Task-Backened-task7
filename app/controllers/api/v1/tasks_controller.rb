@@ -50,7 +50,7 @@ module Api
       end
 
       def index
-        tasks = Task.page(params[:page]).per(10)
+        tasks = Task.page(params[:page]).per(10) #displying large datasets in pagination
         render json: {tasks: tasks}, status: :ok
       end
 
