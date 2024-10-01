@@ -7,7 +7,8 @@
       # allow_browser versions: :modern   
 
       # protect_from_forgery with: :exception
-      protect_from_forgery with: :null_session 
+      
+      # protect_from_forgery with: :null_session 
 
       # skip_before_action :verify_authenticity_token
 
