@@ -1,12 +1,13 @@
 # app/controllers/api/v1/applications_controller.rb
-module Api
-  module V1
+# module Api
+#   module V1
     class ApplicationController < ActionController::API
       # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
       
       # allow_browser versions: :modern   
 
       # protect_from_forgery with: :exception
+      protect_from_forgery with: :null_session 
 
       # skip_before_action :verify_authenticity_token
 
@@ -49,5 +50,5 @@ module Api
         action_name == 'create' && controller_name == 'users'
       end
     end       
-  end
-end
+#   end
+# end
