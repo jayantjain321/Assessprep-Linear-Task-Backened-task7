@@ -3,8 +3,6 @@ module Api
   module V1
     class UsersController < ApplicationController
 
-      include ErrorHandler
-
       skip_before_action :authenticate_user!, only: [:create]
   
       def create

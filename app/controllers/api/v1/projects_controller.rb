@@ -1,8 +1,6 @@
 module Api
   module V1
     class ProjectsController < ApplicationController
-      include Restoreable
-      include ErrorHandler
 
       before_action :authenticate_user!
       before_action :find_project, only: [:update, :destroy, :show]

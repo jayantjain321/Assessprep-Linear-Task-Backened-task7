@@ -3,6 +3,9 @@ class ApplicationController < ActionController::API
   
   # allow_browser versions: :modern
 
+  include ErrorHandler
+  include Restoreable
+
   before_action :authenticate_user!, unless: :skip_authentication?
 
   private

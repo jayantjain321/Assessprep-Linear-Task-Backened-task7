@@ -2,8 +2,6 @@
 module Api
   module V1
     class CommentsController < ApplicationController
-      include ErrorHandler
-      include Restoreable
 
       before_action :authenticate_user!
       before_action :find_comment, only: [:update, :destroy]

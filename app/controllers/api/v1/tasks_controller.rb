@@ -2,8 +2,6 @@
 module Api
   module V1
     class TasksController < ApplicationController
-      include ErrorHandler
-      include Restoreable
 
       before_action :authenticate_user!
       before_action :find_task, only: [:update, :destroy, :task_comments]
