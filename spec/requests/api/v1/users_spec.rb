@@ -1,11 +1,10 @@
 require 'rails_helper'
 
-
 RSpec.describe "Users", type: :request do
   let(:valid_user_params) { { user: { name: "John Doe", email: "john@example.com", password: "password123", position: "Developer" } } }
   let(:invalid_user_params) { { user: { name: "", email: "invalid@example.com", password: "short", position: "" } } }
   let!(:user) { create(:user) }
-  let!(:auth_token) { JWT.encode({ user_id: user.id }, Rails.application.credentials.secret_key_base, 'HS256') }
+  let(:auth_headers) { authenticated_headers(user) }
 
   # Test for 'POST /api/v1/users' (Create User)
   describe "POST /api/v1/users" do
@@ -33,13 +32,13 @@ RSpec.describe "Users", type: :request do
 
   # Test for 'GET /api/v1/users' (Index: List users with pagination)
   describe "GET /api/v1/users" do
-    let!(:users) { create_list(:user, 15) }  # Create 15 users for pagination tests
+    let!(:users) { create_list(:user, 15) }
 
     it "returns a paginated list of users" do
-      get '/api/v1/users',  params: { page: 1, per_page: 10 }, headers: { "Authorization" => "Bearer #{auth_token}" }
+      get '/api/v1/users',  params: { page: 1, per_page: 10 }, headers: auth_headers
 
       expect(response).to have_http_status(:ok)
-      expect(json['users'].size).to eq(10)  # Expect 10 users per page
+      expect(json['users'].size).to eq(10) 
     end
   end
 
@@ -48,7 +47,7 @@ RSpec.describe "Users", type: :request do
     let!(:projects) { create_list(:project, 3, users: [user]) }
 
     it "returns a list of the user's projects" do
-      get '/api/v1/users/projects', headers: { "Authorization" => "Bearer #{auth_token}" }
+      get '/api/v1/users/projects', headers: auth_headers
 
       expect(response).to have_http_status(:ok)
       expect(json['projects'].size).to eq(3)
@@ -60,7 +59,7 @@ RSpec.describe "Users", type: :request do
     let!(:tasks) { create_list(:task, 3, user: user, project: create(:project)) }
 
     it "returns a list of the user's tasks" do
-      get '/api/v1/users/tasks', headers: { "Authorization" => "Bearer #{auth_token}" }
+      get '/api/v1/users/tasks', headers: auth_headers
 
       expect(response).to have_http_status(:ok)
       expect(json['tasks'].size).to eq(3)

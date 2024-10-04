@@ -4,8 +4,7 @@ RSpec.describe  "Comments", type: :request do
   let!(:user) { create(:user) }
   let!(:task) { create(:task, user: user) }
   let!(:comment) { create(:comment, task: task, user: user) }
-  let!(:auth_token) { JWT.encode({ user_id: user.id }, Rails.application.credentials.secret_key_base, 'HS256') }
-  let!(:auth_headers) { { 'Authorization' => "Bearer #{auth_token}" } }
+  let(:auth_headers) { authenticated_headers(user) }
 
   describe 'POST /api/v1/tasks/:id/comments' do
     context 'when task exists' do
@@ -126,8 +125,7 @@ RSpec.describe  "Comments", type: :request do
         expect(json['comments']).to be_empty
       end
     end
-  end  
- 
+  end 
 end
   
   

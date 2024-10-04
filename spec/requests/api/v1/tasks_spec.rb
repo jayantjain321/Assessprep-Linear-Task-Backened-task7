@@ -1,12 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe 'Tasks API', type: :request do
+RSpec.describe 'Tasks', type: :request do
     let(:user) { create(:user) }
     let(:assigned_user) { create(:user) }
     let(:project) { create(:project) }
     let(:task) { create(:task, user: user, assigned_user: assigned_user, project: project) }
-    let!(:auth_token) { JWT.encode({ user_id: user.id }, Rails.application.credentials.secret_key_base, 'HS256') }
-    let!(:auth_headers) { { 'Authorization' => "Bearer #{auth_token}" } }
+    let(:auth_headers) { authenticated_headers(user) }
   
     let(:valid_attributes) { 
       { 
@@ -24,11 +23,6 @@ RSpec.describe 'Tasks API', type: :request do
       }
     }
   
-    # Include the auth header in the request
-    before do
-      @auth_headers = auth_header(user) # Ensure this header is correct
-    end
-  
     describe 'POST /api/v1/tasks' do
       context 'when valid parameters are provided' do
         it 'creates a new task' do
@@ -43,7 +37,7 @@ RSpec.describe 'Tasks API', type: :request do
         it 'returns a not found error' do
           invalid_attributes[:assigned_user_id] = nil
   
-          post '/api/v1/tasks', params: invalid_attributes, headers: @auth_headers
+          post '/api/v1/tasks', params: invalid_attributes, headers: auth_headers
 
           expect(json['error']).to eq('Assigned user not found')
         end
@@ -53,7 +47,7 @@ RSpec.describe 'Tasks API', type: :request do
         it 'raises ProjectNotFoundError' do
           invalid_attributes[:project_id] = nil
   
-          post '/api/v1/tasks', params: invalid_attributes, headers: @auth_headers
+          post '/api/v1/tasks', params: invalid_attributes, headers: auth_headers
   
           expect(response).to have_http_status(:not_found)
         end
