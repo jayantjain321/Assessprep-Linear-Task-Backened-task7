@@ -3,7 +3,6 @@ module Api
   module V1
     class CommentsController < ApplicationController
 
-      before_action :authenticate_user!
       before_action :find_comment, only: [:update, :destroy]
       before_action :authorize_comment_owner!, only: [:update, :destroy]
 

@@ -24,7 +24,7 @@ module Api
       end
   
       def userTasks
-        tasks = current_user.tasks.includes(:project) # Eager loading
+        tasks = Task.includes(:project).where(assigned_user_id: current_user.id)
         render json: { tasks: tasks }, status: :ok
       end
       

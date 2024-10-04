@@ -2,8 +2,7 @@
 module Api
   module V1
     class TasksController < ApplicationController
-
-      before_action :authenticate_user!
+      
       before_action :find_task, only: [:update, :destroy, :task_comments]
       before_action :authorize_task_owner!, only: [:update, :destroy]
 

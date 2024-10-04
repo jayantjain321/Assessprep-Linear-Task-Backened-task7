@@ -31,27 +31,21 @@ Rails.application.routes.draw do
   #users
   namespace :api do
     namespace :v1 do
+
+      #users
       resources :users, only: [:create, :index]
       get 'users/projects', to: 'users#userProjects'
       get 'users/tasks', to: 'users#userTasks'
-    end
-  end
 
-  # Tasks
-  namespace :api do
-    namespace :v1 do
+      # tasks
       resources :tasks, only: [:create, :update, :index, :destroy] do
         member do
           put 'restore'
         end
       end
       get 'task/:id/comments', to: 'tasks#task_comments'
-    end
-  end
 
-  # Comments
-  namespace :api do
-    namespace :v1 do
+      #comments
       resources :comments, only: [:update, :destroy, :index] do
         member do
           put 'restore'
@@ -60,12 +54,8 @@ Rails.application.routes.draw do
       resources :tasks do
         resources :comments, only: [:create]
       end
-    end
-  end
 
-  # Projects
-  namespace :api do
-    namespace :v1 do
+      #projects
       resources :projects, only: [:show, :update, :destroy, :index] do
         member do
           put 'restore'
@@ -74,15 +64,11 @@ Rails.application.routes.draw do
       resources :users do
         resources :projects, only: [:create]
       end
-    end
-  end
 
-  #refresh-token and login
-  namespace :api do
-    namespace :v1 do
+      #sessions
       post 'login', to: 'sessions#create'
       post 'logout', to: 'sessions#logout'
       post 'refresh', to: 'sessions#refresh_token'
     end
-  end  
+  end
 end

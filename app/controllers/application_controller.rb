@@ -6,7 +6,7 @@ class ApplicationController < ActionController::API
   include ErrorHandler
   include Restoreable
 
-  before_action :authenticate_user!, unless: :skip_authentication?
+  before_action :authenticate_user!
 
   private
 
@@ -39,9 +39,5 @@ class ApplicationController < ActionController::API
     else
       raise StandardError.new('Token is missing')
     end
-  end
-
-  def skip_authentication?
-    action_name == 'create' && controller_name == 'users'
   end
 end

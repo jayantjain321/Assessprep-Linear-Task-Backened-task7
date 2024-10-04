@@ -2,8 +2,8 @@ module Api
   module V1
     class ProjectsController < ApplicationController
 
-      before_action :authenticate_user!
       before_action :find_project, only: [:update, :destroy, :show]
+      before_action :authorize_task_owner!, only: [:update, :destroy]
 
       def create
         user = User.find_by(id: params[:user_id])
@@ -12,7 +12,7 @@ module Api
           return
         end
 
-        project = user.projects.new(project_params)
+        project = user.projects.new(project_params.merge(project_creator_id: current_user.id))
         begin
           project.save!
           user.projects << project 
@@ -52,6 +52,13 @@ module Api
       rescue ActiveRecord::RecordNotFound
         raise ProjectNotFoundError.new
       end
+
+      def authorize_task_owner!
+        if @project.project_creator_id != current_user.id
+          render json: { error: 'You are not authorized to perform this action' }, status: :forbidden
+        end
+      end
+      
 
       def project_params
         params.require(:project).permit(:name, :description, :status, :start_date, :end_date)

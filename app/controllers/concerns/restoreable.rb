@@ -6,14 +6,27 @@ module Restoreable
     end
   
     def restore
-      Rails.logger.debug "Restoring resource: #{resource_name} with ID: #{params[:id]}"
       if @resource && @resource.deleted_at.present?
-        @resource.restore
-        render json: { message: "#{resource_name} successfully restored.", resource: @resource }, status: :ok
+        is_creator = case resource_name
+                     when 'Project'
+                       @resource.project_creator_id == current_user.id
+                     when 'Task', 'Comment'
+                       @resource.user_id == current_user.id
+                     else
+                       false
+                     end
+    
+        if is_creator
+          @resource.restore
+          render json: { message: "#{resource_name} successfully restored.", resource: @resource }, status: :ok
+        else
+          render json: { error: "Only the creator can restore this #{resource_name}." }, status: :forbidden
+        end
       else
         render json: { error: "#{resource_name} not found or not deleted" }, status: :not_found
       end
     end
+    
   
     private
   
