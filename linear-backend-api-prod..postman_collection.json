@@ -1,0 +1,539 @@
+{
+	"info": {
+		"_postman_id": "05ed91f5-916d-4253-8d35-105e70700131",
+		"name": "linear-backend-api-prod.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "37938854"
+	},
+	"item": [
+		{
+			"name": "Project",
+			"item": [
+				{
+					"name": "delete-Project",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo5fQ.xVgkDaYys-eADAP7Nah58mSNlkfufrwjDNMOYee6m38"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://mysite-0yi7.onrender.com/api/v1/projects/14"
+					},
+					"response": []
+				},
+				{
+					"name": "Get-all-task-of-aproject",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4fQ.KfiglPFSB1kprPoV1D-MtBAOYRfeP0LHONGTDr4Vr7c"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://mysite-0yi7.onrender.com/api/v1/projects/12"
+					},
+					"response": []
+				},
+				{
+					"name": "Add-project",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4fQ.KfiglPFSB1kprPoV1D-MtBAOYRfeP0LHONGTDr4Vr7c"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"project\": {\r\n    \"name\": \"linearr-Default-task-app\",\r\n    \"description\": \"This is a description of the new project. It must be at least 10 characters long.\",\r\n    \"status\": \"completed\",\r\n    \"start_date\": \"2024-09-15\",\r\n    \"end_date\": \"2024-12-15\"\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://mysite-0yi7.onrender.com/api/v1/users/9/projects"
+					},
+					"response": []
+				},
+				{
+					"name": "update-project",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo5fQ.xVgkDaYys-eADAP7Nah58mSNlkfufrwjDNMOYee6m38"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"project\": {\r\n    \"name\": \"Default-app\",\r\n    \"description\": \"This is a description of the new project. It must be at least 10 characters long.\",\r\n    \"status\": \"active\",\r\n    \"start_date\": \"2024-09-15\",\r\n    \"end_date\": \"2024-12-15\"\r\n  }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://mysite-0yi7.onrender.com/api/v1/projects/13"
+					},
+					"response": []
+				},
+				{
+					"name": "Get-all-projects",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Restore-project",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "https://mysite-0yi7.onrender.com/api/v1/projects/10/restore"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Add-User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"user\": {\r\n    \"name\": \"lakshay\",\r\n    \"email\": \"lalit@gmail.com\",\r\n    \"password\": \"lalit\",\r\n    \"position\": \"Developer\"\r\n  }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://mysite-0yi7.onrender.com/api/v1//users"
+					},
+					"response": []
+				},
+				{
+					"name": "login-user",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"lalit@gmail.com\",\r\n    \"password\": \"lalit\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://mysite-0yi7.onrender.com/api/v1/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Get-all-Users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo5fQ.xVgkDaYys-eADAP7Nah58mSNlkfufrwjDNMOYee6m38"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "https://mysite-0yi7.onrender.com/api/v1/users"
+					},
+					"response": []
+				},
+				{
+					"name": "Get-all-projcets-of-User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo5fQ.xVgkDaYys-eADAP7Nah58mSNlkfufrwjDNMOYee6m38"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "https://mysite-0yi7.onrender.com/api/v1/users/projects"
+					},
+					"response": []
+				},
+				{
+					"name": "Get-all-tasks-of-user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "https://mysite-0yi7.onrender.com/api/v1/users/tasks"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Task",
+			"item": [
+				{
+					"name": "Add-task",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4fQ.KfiglPFSB1kprPoV1D-MtBAOYRfeP0LHONGTDr4Vr7c"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"task\": {\r\n    \"task_title\": \"Users-task\",\r\n    \"description\": \"Task description\",\r\n    \"assign_date\": \"2024-09-13\",\r\n    \"due_date\": \"2024-09-20\",\r\n    \"status\": \"InProgress\",\r\n    \"priority\": \"High\"\r\n  },\r\n  \"assigned_user_id\": 9,\r\n  \"project_id\": 12\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://mysite-0yi7.onrender.com/api/v1/tasks"
+					},
+					"response": []
+				},
+				{
+					"name": "Update-task",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo5fQ.xVgkDaYys-eADAP7Nah58mSNlkfufrwjDNMOYee6m38"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"task\": {\r\n    \"task_title\": \"User-Compoenet-task\",\r\n    \"description\": \"This is all about linear\",\r\n    \"assign_date\": \"2024-09-13\",\r\n    \"due_date\": \"2024-09-20\",\r\n    \"status\": \"InProgress\",\r\n    \"priority\": \"High\"\r\n  },\r\n  \"assigned_user_id\": 8,\r\n  \"project_id\": 11\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://mysite-0yi7.onrender.com/api/v1/tasks/6"
+					},
+					"response": []
+				},
+				{
+					"name": "Get-All-Tasks",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4fQ.KfiglPFSB1kprPoV1D-MtBAOYRfeP0LHONGTDr4Vr7c"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "https://mysite-0yi7.onrender.com/api/v1/tasks"
+					},
+					"response": []
+				},
+				{
+					"name": "Get-all-commnets-task",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4fQ.KfiglPFSB1kprPoV1D-MtBAOYRfeP0LHONGTDr4Vr7c"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "https://mysite-0yi7.onrender.com/api/v1/task/6/comments"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete-task",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "https://mysite-0yi7.onrender.com/api/v1/tasks/36"
+					},
+					"response": []
+				},
+				{
+					"name": "Restore-delete-task",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "https://mysite-0yi7.onrender.com/api/v1/tasks/36/restore"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comment",
+			"item": [
+				{
+					"name": "Add-Comments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo5fQ.xVgkDaYys-eADAP7Nah58mSNlkfufrwjDNMOYee6m38"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"comment\": {\r\n    \"text\": \"Hello how are you\",\r\n    \"image\": \"image_filename.jpg\"\r\n  }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://mysite-0yi7.onrender.com/api/v1/tasks/6/comments"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete-Comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo5fQ.xVgkDaYys-eADAP7Nah58mSNlkfufrwjDNMOYee6m38"
+							}
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "https://mysite-0yi7.onrender.com/api/v1/comments/5"
+					},
+					"response": []
+				},
+				{
+					"name": "Update-Comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo5fQ.xVgkDaYys-eADAP7Nah58mSNlkfufrwjDNMOYee6m38"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"comment\": {\r\n    \"text\": \"Don't like this \",\r\n    \"image\": \"imagepics_filename.jpg\"\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://mysite-0yi7.onrender.com/api/v1/comments/4"
+					},
+					"response": []
+				},
+				{
+					"name": "Get-all-comments",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://mysite-0yi7.onrender.com/api/v1/comments?page=1",
+							"protocol": "https",
+							"host": [
+								"mysite-0yi7",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"comments"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Restore-delete-comment",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "https://mysite-0yi7.onrender.com/api/v1/comments/11/restore"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Logout & Refresh-token",
+			"item": [
+				{
+					"name": "Refresh-token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "https://mysite-0yi7.onrender.com/api/v1/refresh"
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "https://mysite-0yi7.onrender.com/api/v1/logout"
+					},
+					"response": []
+				},
+				{
+					"name": "Render-api",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:3000/api/v1/render"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
