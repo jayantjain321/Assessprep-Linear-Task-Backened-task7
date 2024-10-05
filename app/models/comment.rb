@@ -1,6 +1,10 @@
 class Comment < ApplicationRecord
-  acts_as_paranoid
-  belongs_to :task
-  belongs_to :user
+  acts_as_paranoid # Allows for soft deletion of comments
+
+  # Associations
+  belongs_to :task  #Each comment belongs to a task many-to-one relation
+  belongs_to :user  #Each comment belongs to a user many-to-ont relation
+
+  # Validations
   validates :text, presence: true 
 end
