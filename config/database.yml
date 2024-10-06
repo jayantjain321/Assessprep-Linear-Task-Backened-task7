@@ -36,6 +36,7 @@
 #   database: path/to/persistent/storage/production.sqlite3
 
 
+
 default: &default
   adapter: postgresql
   encoding: unicode
