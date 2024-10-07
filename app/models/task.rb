@@ -3,7 +3,7 @@ class Task < ApplicationRecord
   acts_as_paranoid  # Allows for soft deletion of tasks
 
   #Associations
-  belongs_to :user  #Each task belongs to a user many-to-one Relation
+  belongs_to :user, foreign_key: 'assigned_user_id'  #Each task belongs to a user many-to-one Relation
   has_many :comments, dependent: :destroy #If a task deleted, commeent will be deleted too one-to-many relation
   belongs_to :project #Many-to-One Relation 
   
@@ -14,5 +14,15 @@ class Task < ApplicationRecord
   validates :due_date, presence: true # Ensure due date is present
   validates :status, presence: true, inclusion: { in: %w[Todo Done InProgress InDevReview] } # Valid status values
   validates :priority, presence: true, inclusion: { in: %w[Urgent High Low] } # Valid priority values
+  validate :due_date_after_assign_date
+
+  private
+
+  def due_date_after_assign_date
+    return if due_date.blank? || assign_date.blank?
+    if due_date <= assign_date
+      errors.add(:due_date, "must be after assign date")
+    end
+  end
 end
 
