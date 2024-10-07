@@ -3,7 +3,7 @@ class User < ApplicationRecord
 
     #Associations
     has_and_belongs_to_many :projects  #Many-to-Many Relation A user can have many projects
-    has_many :tasks, dependent: :destroy,  foreign_key: 'assigned_user_id', dependent: :destroy  #One-to-Many Relation A user can have many tasks
+    has_many :tasks, dependent: :destroy #One-to-Many Relation A user can have many tasks
     has_many :comments, dependent: :destroy #One-to-Many Relation A user can have many comments 
     
 

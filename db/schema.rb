@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_04_145138) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_07_171836) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -55,10 +55,11 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_04_145138) do
     t.string "priority"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
     t.bigint "project_id"
     t.datetime "deleted_at"
     t.integer "assigned_user_id"
+    t.bigint "user_id"
+    t.index ["assigned_user_id"], name: "index_tasks_on_assigned_user_id"
     t.index ["project_id"], name: "index_tasks_on_project_id"
     t.index ["user_id"], name: "index_tasks_on_user_id"
   end
@@ -77,4 +78,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_04_145138) do
   add_foreign_key "projects_users", "projects"
   add_foreign_key "projects_users", "users"
   add_foreign_key "tasks", "projects"
+  add_foreign_key "tasks", "users"
+  add_foreign_key "tasks", "users", column: "assigned_user_id"
 end

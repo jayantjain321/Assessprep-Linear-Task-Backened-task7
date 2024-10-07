@@ -3,7 +3,7 @@ class Task < ApplicationRecord
   acts_as_paranoid  # Allows for soft deletion of tasks
 
   #Associations
-  belongs_to :user, foreign_key: 'assigned_user_id'  #Each task belongs to a user many-to-one Relation
+  belongs_to :user  #Each task belongs to a user many-to-one Relation
   has_many :comments, dependent: :destroy #If a task deleted, commeent will be deleted too one-to-many relation
   belongs_to :project #Many-to-One Relation 
   
