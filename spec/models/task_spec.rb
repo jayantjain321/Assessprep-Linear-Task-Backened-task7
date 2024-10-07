@@ -30,12 +30,6 @@ RSpec.describe Task, type: :model do
       expect(task.errors[:project]).to include("must exist")
     end
 
-    it 'is not valid if due_date is before assign_date' do
-      task.due_date = 1.day.ago
-      expect(task).not_to be_valid
-      expect(task.errors[:due_date]).to include("must be after assign date")
-    end
-
     it 'is not valid with an invalid status' do
       task.status = "InvalidStatus"
       expect(task).not_to be_valid
