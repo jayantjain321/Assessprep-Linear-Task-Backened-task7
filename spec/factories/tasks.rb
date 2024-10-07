@@ -8,8 +8,8 @@ FactoryBot.define do
       due_date { 1.day.from_now }
       status { "Todo" }
       priority { "Urgent" }
-      association :user # Creates an associated user
-      association :project # Creates an associated project
+      user # Creates an associated user
+      project # Creates an associated project
     end
   end
   
