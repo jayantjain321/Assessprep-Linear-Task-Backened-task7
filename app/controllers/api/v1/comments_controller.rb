@@ -45,7 +45,7 @@ module Api
       # GET /comments
       # Retrieves all comments with pagination (10 comments per page)
       def index
-        comments = Comment.page(params[:page]).per(10)
+        comments = Comment.ordered_by_creation.page(params[:page]).per(10)
         render json: { comments: comments }, status: :ok
       end
 
