@@ -1,8 +1,6 @@
 class Project < ApplicationRecord
   acts_as_paranoid # Allows for soft deletion of projects
 
-  # scope :ordered_by_creation, -> { order(created_at: :desc) }
-
   # Associations
   has_and_belongs_to_many :users #Project Can have many users many-to-many relation
   has_many :tasks, dependent: :destroy # Deletes associated tasks if the project is deleted one-to-many relation

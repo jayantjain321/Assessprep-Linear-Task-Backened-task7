@@ -2,8 +2,6 @@ class Task < ApplicationRecord
   
   acts_as_paranoid  # Allows for soft deletion of tasks
 
-  # scope :ordered_by_creation, -> { order(created_at: :desc) }
-
   #Associations
   belongs_to :user  #Each task belongs to a user many-to-one Relation
   has_many :comments, dependent: :destroy #If a task deleted, commeent will be deleted too one-to-many relation

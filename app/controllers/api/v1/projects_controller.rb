@@ -65,7 +65,7 @@ module Api
       def index
 
         # Paginate the project list to avoid loading large datasets in one go
-        projects = Project.page(params[:page]).per(10) # Order projects by creation time in descending order
+        projects = Project.order(created_at: :desc).page(params[:page]).per(10) # Order projects by creation time in descending order
         render json: { projects: projects }, status: :ok  # Return the paginated list of projects
       end
 

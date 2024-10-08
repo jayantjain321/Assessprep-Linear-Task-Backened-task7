@@ -63,7 +63,7 @@ module Api
 
       # GET /tasks  Retrieves all tasks with pagination (10 tasks per page)
       def index
-        tasks = Task.page(params[:page]).per(10) # Order tasks by creation time in descending order
+        tasks = Task.order(created_at: :desc).page(params[:page]).per(10) # Order tasks by creation time in descending order
         render json: {tasks: tasks}, status: :ok
       end
       
