@@ -1,7 +1,7 @@
 class User < ApplicationRecord
     has_secure_password  # Secure password handling
 
-    scope :ordered_by_creation, -> { order(created_at: :desc) }
+    # scope :ordered_by_creation, -> { order(created_at: :desc) }
 
     #Associations
     has_and_belongs_to_many :projects  #Many-to-Many Relation A user can have many projects

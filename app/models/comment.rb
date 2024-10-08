@@ -1,7 +1,7 @@
 class Comment < ApplicationRecord
   acts_as_paranoid # Allows for soft deletion of comments
 
-  scope :ordered_by_creation, -> { order(created_at: :desc) }
+  # scope :ordered_by_creation, -> { order(created_at: :desc) }
 
   # Associations
   belongs_to :task  #Each comment belongs to a task many-to-one relation

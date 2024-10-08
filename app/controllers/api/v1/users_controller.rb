@@ -21,7 +21,7 @@ module Api
       def index
 
         # Paginate the list of users (10 users per page)
-        users = User.ordered_by_creation.page(params[:page]).per(10)
+        users = User.page(params[:page]).per(10)
         render json: {users: users}, status: :ok  # Return the paginated list of users
       end
 
@@ -29,7 +29,7 @@ module Api
       def userProjects
 
         # Eager load the users associated with each project to avoid N+1 queries
-        projects = current_user.projects.includes(:users).ordered_by_creation
+        projects = current_user.projects.includes(:users)
 
         # Return the user's projects along with associated users
         render json: { projects: projects }, status: :ok
@@ -37,7 +37,7 @@ module Api
 
       # GET /users/tasks  Lists all tasks assigned to the current user
       def userTasks
-        tasks = Task.includes(:project).where(assigned_user_id: current_user.id).ordered_by_creation  # Eager load the projects associated with the tasks 
+        tasks = Task.includes(:project).where(assigned_user_id: current_user.id)  # Eager load the projects associated with the tasks 
         render json: { tasks: tasks }, status: :ok
       end
       

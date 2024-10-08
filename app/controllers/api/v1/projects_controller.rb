@@ -54,7 +54,7 @@ module Api
       # GET /projects/:id
       def show
         # Order the tasks by created_at in descending order
-        tasks = @project.tasks.ordered_by_creation
+        tasks = @project.tasks
       
         # Return the tasks associated with the project
         render json: { tasks: tasks }, status: :ok
@@ -65,7 +65,7 @@ module Api
       def index
 
         # Paginate the project list to avoid loading large datasets in one go
-        projects = Project.ordered_by_creation.page(params[:page]).per(10) # Order projects by creation time in descending order
+        projects = Project.page(params[:page]).per(10) # Order projects by creation time in descending order
         render json: { projects: projects }, status: :ok  # Return the paginated list of projects
       end
 
