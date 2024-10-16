@@ -10,7 +10,6 @@ module Api
 
       # POST users/:id/projects
       def create
-
         # Find the user by the provided user_id parameter
         user = User.find_by(id: params[:user_id])
 
@@ -21,23 +20,22 @@ module Api
         end
 
         # Create a new project for the user, setting the current_user as the project creator
-        project = user.projects.new(project_params.merge(project_creator_id: current_user.id))
+        @project = user.projects.new(project_params.merge(project_creator_id: current_user.id))
         begin
-          project.save!    # Save the project, raising an error if validation fails
-          user.projects << project   # Associate the project with the user
-          render json: { message: 'Project Created Successfully', project: project }, status: :created
+          @project.save!    # Save the project, raising an error if validation fails
+          user.projects << @project   # Associate the project with the user
+          LogActionService.log_action(@project.id, current_user.id, :create, 'Project')
+          render json: { message: 'Project Created Successfully', project: @project }, status: :created
         rescue ActiveRecord::RecordInvalid => e
-
           # Raise the validation error to handle globally
           raise e
         end
       end
-
+      
       # PUT /projects/:id
       def update
-
-        # Updates the project with the given parameters, raises an error if validation fails
         @project.update!(project_params)
+        LogActionService.log_action(@project.id, current_user.id, :update, 'Project')
         render json: { message: 'Project updated successfully', project: @project }, status: :ok
       rescue ActiveRecord::RecordInvalid => e
         raise e
@@ -45,17 +43,18 @@ module Api
 
       # DELETE /projects/:id
       def destroy
-        @project.destroy  # Destroys the project record from the database
+        @project.destroy 
+        LogActionService.log_action(@project.id, current_user.id, :destroy, 'Project')
         render json: { message: 'Project deleted successfully' }, status: :ok
       rescue ActiveRecord::RecordInvalid => e
         raise e
       end
+      
 
       # GET /projects/:id
       def show
         # Order the tasks by created_at in descending order
         tasks = @project.tasks
-      
         # Return the tasks associated with the project
         render json: { tasks: tasks }, status: :ok
       end
@@ -63,7 +62,6 @@ module Api
 
       # GET /projects
       def index
-
         # Paginate the project list to avoid loading large datasets in one go
         projects = Project.order(created_at: :desc).page(params[:page]).per(10) # Order projects by creation time in descending order
         render json: { projects: projects }, status: :ok  # Return the paginated list of projects
@@ -87,7 +85,6 @@ module Api
         end
       end
       
-
       def project_params
         params.require(:project).permit(:name, :description, :status, :start_date, :end_date)  #only allow the specified attributes
       end

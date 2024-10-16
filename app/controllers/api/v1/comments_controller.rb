@@ -9,16 +9,15 @@ module Api
 
       # POST /tasks/:task_id/comments  Creates a comment for a specific task
       def create
-
         # Find the task to which the comment is being added
         task = Task.find_by(id: params[:task_id])
         if task
-
           # Create a new comment associated with the task
-          comment = task.comments.new(comment_params)
-          comment.user_id = current_user.id  # Associate the comment with the current user
-          comment.save!  #Save the comment 
-          render json: { message: 'Comment created successfully', comment: comment }, status: :created
+          @comment = task.comments.new(comment_params)
+          @comment.user_id = current_user.id  # Associate the comment with the current user
+          @comment.save!  #Save the comment 
+          LogActionService.log_action(@comment.id, current_user.id, :create, 'Comment')
+          render json: { message: 'Comment created successfully', comment: @comment }, status: :created
         else
           raise TaskNotFoundError.new
         end
@@ -29,6 +28,7 @@ module Api
       # PUT /comments/:id  Updates an existing comment
       def update
         @comment.update!(comment_params)  #Update the comment
+        LogActionService.log_action(@comment.id, current_user.id, :update, 'Comment')
         render json: { message: 'Comment updated successfully', comment: @comment }, status: :ok
       rescue ActiveRecord::RecordInvalid => e
         raise e
@@ -36,7 +36,8 @@ module Api
 
       # DELETE /comments/:id Deletes a comment
       def destroy
-        @comment.destroy!   # Destroy the comment and return a success message
+        @comment.destroy!   # Destroy the comment and return a success 
+        LogActionService.log_action(@comment.id, current_user.id, :destroy, 'Comment')
         render json: { message: 'Comment deleted successfully' }, status: :ok
       rescue ActiveRecord::RecordInvalid => e
         raise e
@@ -61,7 +62,6 @@ module Api
       # Ensures only the owner of the comment can update or delete it
       def authorize_comment_owner!
         if @comment.user_id != current_user.id
-
           # Return a forbidden error if the current user is not authorized to modify the comment
           render json: { error: 'You are not authorized to perform this action' }, status: :forbidden
         end

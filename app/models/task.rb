@@ -1,5 +1,6 @@
 class Task < ApplicationRecord
-  
+  include Loggable
+
   acts_as_paranoid  # Allows for soft deletion of tasks
 
   #Associations

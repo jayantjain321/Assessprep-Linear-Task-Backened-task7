@@ -37,6 +37,8 @@ gem 'paranoia', '~> 3.0'
 
 gem 'cancancan'
 
+gem 'sidekiq'
+
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
@@ -68,6 +70,8 @@ group :development, :test do
   gem 'rspec-rails', '~> 6.0'
   gem 'shoulda-matchers', '~> 5.0'
   gem 'factory_bot_rails'
+
+  gem 'rswag'
   
 end
 

@@ -24,11 +24,13 @@ module Api
         raise ProjectNotFoundError.new if project.nil?
 
         # Create the new task with the provided parameters, current user, assigned user, and project
-        task = Task.new(task_params.merge(user_id: current_user.id, assigned_user_id: assigned_user.id, project_id: project.id))
-        task.save!
+        @task = Task.new(task_params.merge(user_id: current_user.id, assigned_user_id: assigned_user.id, project_id: project.id))
+        @task.save!
+
+        LogActionService.log_action(@task.id, current_user.id, :create, 'Task')
 
         # Return a success response with the created task details
-        render json: { message: 'Task created successfully', task: task }, status: :created
+        render json: { message: 'Task created successfully', task: @task }, status: :created
       rescue ActiveRecord::RecordInvalid => e
         raise e  # Raise validation errors to be handled globally
       end
@@ -46,6 +48,7 @@ module Api
 
         # Update the task with new parameters, including the new assigned user
         @task.update!(task_params.merge(assigned_user_id: assigned_user.id))
+        LogActionService.log_action(@task.id, current_user.id, :update, 'Task')
         render json: { message: 'Task updated successfully', task: @task }, status: :ok
       rescue ActiveRecord::RecordInvalid => e
         raise e
@@ -53,9 +56,8 @@ module Api
 
       # DELETE /tasks/:id  Deletes the task if the user is authorized
       def destroy
-
-        # Destroy the task and return a success message
-        @task.destroy!
+        @task.destroy! # Destroy the task and return a success message
+        LogActionService.log_action(@task.id, current_user.id, :destroy, 'Task')
         render json: { message: 'Task deleted successfully' }, status: :ok
       rescue ActiveRecord::RecordInvalid => e
         raise e
@@ -87,7 +89,6 @@ module Api
       # Ensures that only the task owner (the user who created it) can update or delete it
       def authorize_task_owner!
         if @task.user_id != current_user.id
-
           # Return a forbidden error if the current user is not authorized to modify the task
           render json: { error: 'You are not authorized to perform this action' }, status: :forbidden
         end

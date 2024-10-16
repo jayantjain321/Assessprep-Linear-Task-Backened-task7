@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_07_171836) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_12_223401) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -22,6 +22,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_07_171836) do
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
     t.bigint "user_id"
+    t.string "log_message"
     t.index ["task_id"], name: "index_comments_on_task_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
@@ -36,6 +37,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_07_171836) do
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
     t.integer "project_creator_id"
+    t.string "log_message"
   end
 
   create_table "projects_users", id: false, force: :cascade do |t|
@@ -59,6 +61,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_07_171836) do
     t.datetime "deleted_at"
     t.integer "assigned_user_id"
     t.bigint "user_id"
+    t.string "log_message"
     t.index ["assigned_user_id"], name: "index_tasks_on_assigned_user_id"
     t.index ["project_id"], name: "index_tasks_on_project_id"
     t.index ["user_id"], name: "index_tasks_on_user_id"

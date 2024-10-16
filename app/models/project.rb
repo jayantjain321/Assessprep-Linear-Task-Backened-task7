@@ -1,5 +1,7 @@
 class Project < ApplicationRecord
-  acts_as_paranoid # Allows for soft deletion of projects
+  include Loggable
+
+  acts_as_paranoid # Allows for soft deletion of projects 
 
   # Associations
   has_and_belongs_to_many :users #Project Can have many users many-to-many relation

@@ -1,4 +1,6 @@
 class Comment < ApplicationRecord
+  include Loggable
+
   acts_as_paranoid # Allows for soft deletion of comments
 
   # Associations
