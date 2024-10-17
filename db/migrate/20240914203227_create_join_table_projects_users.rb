@@ -3,8 +3,8 @@ class CreateJoinTableProjectsUsers < ActiveRecord::Migration[7.2]
 
     # Creates a join table for many-to-many relationship between projects and users
     create_table :projects_users, id: false do |t|
-      t.integer :project_id, null: false
-      t.integer :user_id, null: false
+      t.bigint :project_id, null: false
+      t.bigint :user_id, null: false
 
       t.index :project_id # Indexing project_id for faster lookups
       t.index :user_id # Indexing user_id for faster lookups

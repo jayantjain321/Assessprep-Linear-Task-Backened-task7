@@ -7,6 +7,6 @@ class ChangeAssignedUserToAssignedUserIdInTasks < ActiveRecord::Migration[7.2]
 
     # Adds an assigned_user_id column to the tasks table 
     # to properly reference the user assigned to the task.
-    add_column :tasks, :assigned_user_id, :integer 
+    add_column :tasks, :assigned_user_id, :bigint 
   end
 end
