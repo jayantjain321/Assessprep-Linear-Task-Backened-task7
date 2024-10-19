@@ -4,7 +4,7 @@ module Api
     class SessionsController < ApplicationController
 
       # Skip authentication for session creation (login) and token refresh actions
-      skip_before_action :authenticate_user!, only: [:create]
+      skip_before_action :authenticate_user!, only: [:create, :refresh_token]
 
       # POST /login
       # Handles user login by generating access and refresh tokens
@@ -56,16 +56,12 @@ module Api
             end
       
           rescue JWT::ExpiredSignature
-
-            # Handle expired refresh token
-            render json: { error: 'Refresh token has expired. Please login again.' }, status: :unauthorized
+            render json: { error: 'Refresh token has expired. Please login again.' }, status: :unauthorized # Handle expired refresh token
           rescue JWT::DecodeError
-
-            # Handle invalid token
-            render json: { error: 'Invalid refresh token. Please login again.' }, status: :unauthorized
+            render json: { error: 'Invalid refresh token. Please login again.' }, status: :unauthorized  # Handle invalid token
           end
         else
-          render json: { error: 'Token is missing' }, status: :unauthorized
+          render json: { error: 'Refresh token is missing' }, status: :unauthorized
         end
       end
 

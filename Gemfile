@@ -35,8 +35,6 @@ gem 'kaminari'
 
 gem 'paranoia', '~> 3.0'
 
-gem 'cancancan'
-
 gem 'sidekiq'
 
 
