@@ -69,8 +69,8 @@ RSpec.describe 'Tasks', type: :request do
   describe 'GET /api/v1/tasks' do
     context 'when tasks exist' do
       before do
-        Comment.delete_all  # Ensure no comments exist before this test
-        Task.delete_all  # Ensure no other tasks are present before the test
+        Comment.destroy_all  # Delete all comments and trigger callbacks
+        Task.destroy_all  # Then delete tasks and trigger callbacks
       end
       
       it 'returns all tasks' do
@@ -85,8 +85,8 @@ RSpec.describe 'Tasks', type: :request do
     
     context 'when no tasks exist' do
       before do
-        Comment.delete_all  # Ensure no comments exist before this test
-        Task.delete_all  # Ensure no tasks exist before this test
+        Comment.destroy_all  # Delete all comments and trigger callbacks
+        Task.destroy_all  # Then delete tasks and trigger callbacks
       end
       
       it 'returns an empty array' do

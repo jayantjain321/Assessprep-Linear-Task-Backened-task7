@@ -8,30 +8,20 @@ module Api
 
       # POST /users  Creates a new user with the given parameters
       def create
-
-        # Initialize a new user with the provided parameters
-        user = User.new(user_params)
+        user = User.new(user_params) # Initialize a new user with the provided parameters
         user.save! # Save the user and return a success message with user details
         render json: { message: 'User created successfully', user: user }, status: :created
-      rescue ActiveRecord::RecordInvalid => e
-        raise e  # Raise the validation error to be handled globally
       end
 
       # GET /users
       def index
-
-        # Paginate the list of users (10 users per page)
-        users = User.page(params[:page]).per(10)
-        render json: {users: users}, status: :ok  # Return the paginated list of users
+        users = User.page(params[:page]).per(10) # Paginate the list of users (10 users per page)
+        render json: {users: users}, status: :ok
       end
 
       # GET /users/projects  Lists all projects associated with the current user
       def userProjects
-
-        # Eager load the users associated with each project to avoid N+1 queries
-        projects = current_user.projects.includes(:users)
-
-        # Return the user's projects along with associated users
+        projects = current_user.projects.includes(:users)  # Eager load the users associated with each project to avoid N+1 queries
         render json: { projects: projects }, status: :ok
       end
 
@@ -45,7 +35,7 @@ module Api
       
       # Strong parameters for user creation to ensure only permitted attributes are allowed
       def user_params
-          params.require(:user).permit(:name, :email, :password, :position)
+        params.require(:user).permit(:name, :email, :password, :position)
       end
     end
   end

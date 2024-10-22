@@ -7,11 +7,16 @@ module ErrorHandler
   extend ActiveSupport::Concern
 
   included do
-    # Handle custom and ActiveRecord errors with specific methods
-    rescue_from TaskNotFoundError, with: :task_not_found
+    rescue_from TaskNotFoundError, with: :task_not_found  # Handle custom and ActiveRecord errors with specific methods
     rescue_from CommentNotFoundError, with: :comment_not_found
     rescue_from ProjectNotFoundError, with: :project_not_found
+    rescue_from CanCan::AccessDenied, with: :access_denied
     rescue_from ActiveRecord::RecordInvalid, with: :unprocessable_entity
+  end
+
+  # Custom error handling for access denied
+  def access_denied(exception)
+    render json: { error: 'You are not authorized to perform this action' }, status: :forbidden
   end
 
   # Custom error handling for Project not found

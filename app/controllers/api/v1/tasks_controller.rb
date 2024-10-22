@@ -9,49 +9,38 @@ module Api
 
       # POST /tasks
       def create
-
-        # Find the user assigned to the task and the project the task belongs to
-        assigned_user = User.find_by(id: params[:assigned_user_id])
+        assigned_user = User.find_by(id: params[:assigned_user_id]) # Find the user assigned to the task and the project the task belongs to
         project = Project.find_by(id: params[:project_id])
 
-        # Handle the case where the assigned user is not found
-        if assigned_user.nil?
+        if assigned_user.nil? # Handle the case where the assigned user is not found
           render json: { error: 'Assigned user not found' }, status: :not_found
           return
         end
 
-        # Raise a custom error if the project is not found (using ProjectNotFoundError)
-        raise ProjectNotFoundError.new if project.nil?
+        raise ProjectNotFoundError.new if project.nil? # Raise a custom error if the project is not found (using ProjectNotFoundError)
 
         # Create the new task with the provided parameters, current user, assigned user, and project
         @task = Task.new(task_params.merge(user_id: current_user.id, assigned_user_id: assigned_user.id, project_id: project.id))
         @task.save!
-
         LogActionService.log_action(@task.id, current_user.id, :create, 'Task')
-
-        # Return a success response with the created task details
-        render json: { message: 'Task created successfully', task: @task }, status: :created
-      rescue ActiveRecord::RecordInvalid => e
-        raise e  # Raise validation errors to be handled globally
+        render json: { message: 'Task created successfully', task: @task }, status: :created # Return a success response with the created task details 
       end
 
       # PUT /tasks/:id  Updates an existing task with the provided parameters
       def update
-
-        # Find the assigned user by ID
-        assigned_user = User.find_by(id: params[:assigned_user_id])
+        assigned_user = User.find_by(id: params[:assigned_user_id]) # Find the assigned user by ID
+        project = Project.find_by(id: params[:project_id])
 
         if assigned_user.nil?
           render json: { error: 'Assigned user not found' }, status: :not_found
           return
         end
 
-        # Update the task with new parameters, including the new assigned user
-        @task.update!(task_params.merge(assigned_user_id: assigned_user.id))
+        raise ProjectNotFoundError.new if project.nil?
+
+        @task.update!(task_params.merge(assigned_user_id: assigned_user.id,project_id: project.id)) # Update the task with new parameters, including the new assigned user
         LogActionService.log_action(@task.id, current_user.id, :update, 'Task')
         render json: { message: 'Task updated successfully', task: @task }, status: :ok
-      rescue ActiveRecord::RecordInvalid => e
-        raise e
       end
 
       # DELETE /tasks/:id  Deletes the task if the user is authorized
@@ -59,8 +48,6 @@ module Api
         @task.destroy! # Destroy the task and return a success message
         LogActionService.log_action(@task.id, current_user.id, :destroy, 'Task')
         render json: { message: 'Task deleted successfully' }, status: :ok
-      rescue ActiveRecord::RecordInvalid => e
-        raise e
       end
 
       # GET /tasks  Retrieves all tasks with pagination (10 tasks per page)
@@ -71,9 +58,8 @@ module Api
       
 
       # GET /tasks/:id/comments
-      # Retrieves all comments for a specific task
       def task_comments
-        comments = @task.comments
+        comments = @task.comments # Retrieves all comments for a specific task
         render json: { comments: comments }, status: :ok
       end
 
@@ -89,8 +75,7 @@ module Api
       # Ensures that only the task owner (the user who created it) can update or delete it
       def authorize_task_owner!
         if @task.user_id != current_user.id
-          # Return a forbidden error if the current user is not authorized to modify the task
-          render json: { error: 'You are not authorized to perform this action' }, status: :forbidden
+          render json: { error: 'You are not authorized to perform this action' }, status: :forbidden # Return a forbidden error if the current user is not authorized
         end
       end
 

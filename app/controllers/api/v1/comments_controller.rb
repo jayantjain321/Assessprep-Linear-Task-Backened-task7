@@ -3,17 +3,13 @@ module Api
   module V1
     class CommentsController < ApplicationController
 
-      # Find the comment and check ownership before updating or deleting a comment
-      before_action :find_comment, only: [:update, :destroy]
-      before_action :authorize_comment_owner!, only: [:update, :destroy]
+      before_action :find_comment, only: [:update, :destroy] # Find the comment and check ownership before updating or deleting a comment
 
       # POST /tasks/:task_id/comments  Creates a comment for a specific task
       def create
-        # Find the task to which the comment is being added
-        task = Task.find_by(id: params[:task_id])
+        task = Task.find_by(id: params[:task_id])  # Find the task to which the comment is being added
         if task
-          # Create a new comment associated with the task
-          @comment = task.comments.new(comment_params)
+          @comment = task.comments.new(comment_params) # Create a new comment associated with the task
           @comment.user_id = current_user.id  # Associate the comment with the current user
           @comment.save!  #Save the comment 
           LogActionService.log_action(@comment.id, current_user.id, :create, 'Comment')
@@ -21,50 +17,37 @@ module Api
         else
           raise TaskNotFoundError.new
         end
-      rescue ActiveRecord::RecordInvalid => e
-        raise e  # Raise the validation error to be handled globally
       end
 
       # PUT /comments/:id  Updates an existing comment
       def update
+        authorize! :update, @comment  # CanCanCan authorization (will throw an AccessDenied exception if unauthorized)
         @comment.update!(comment_params)  #Update the comment
         LogActionService.log_action(@comment.id, current_user.id, :update, 'Comment')
         render json: { message: 'Comment updated successfully', comment: @comment }, status: :ok
-      rescue ActiveRecord::RecordInvalid => e
-        raise e
       end
 
       # DELETE /comments/:id Deletes a comment
       def destroy
+        authorize! :destroy, @comment   # CanCanCan authorization (will throw an AccessDenied exception if unauthorized)
         @comment.destroy!   # Destroy the comment and return a success 
         LogActionService.log_action(@comment.id, current_user.id, :destroy, 'Comment')
         render json: { message: 'Comment deleted successfully' }, status: :ok
-      rescue ActiveRecord::RecordInvalid => e
-        raise e
       end
 
       # GET /comments
-      # Retrieves all comments with pagination (10 comments per page)
       def index
-        comments = Comment.order(created_at: :desc).page(params[:page]).per(10)
+        comments = Comment.order(created_at: :desc).page(params[:page]).per(10) # Retrieves all comments with pagination (10 comments per page)
         render json: { comments: comments }, status: :ok
       end
 
       private
 
-      # Finds a comment by ID before updating or deleting it
+      # Finds the comment before updating or deleting and if comment raise exception
       def find_comment
         @comment = Comment.find(params[:id])
       rescue ActiveRecord::RecordNotFound
         raise CommentNotFoundError.new   # Raise custom error if the comment is not found
-      end
-
-      # Ensures only the owner of the comment can update or delete it
-      def authorize_comment_owner!
-        if @comment.user_id != current_user.id
-          # Return a forbidden error if the current user is not authorized to modify the comment
-          render json: { error: 'You are not authorized to perform this action' }, status: :forbidden
-        end
       end
 
       # Strong parameters to allow only the permitted attributes

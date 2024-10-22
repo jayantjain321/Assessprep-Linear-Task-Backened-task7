@@ -33,26 +33,20 @@ module Api
       # Refreshes the access token if the provided refresh token is valid
       def refresh_token
         if request.headers['Authorization'].present?
-
-          # Extract the refresh token from the Authorization header
-          refresh_token = request.headers['Authorization'].split(' ').last
+          refresh_token = request.headers['Authorization'].split(' ').last # Extract the refresh token from the Authorization header
 
           begin
-
+            
             # Decode the refresh token to retrieve the user ID
             decoded_token = JWT.decode(refresh_token, Rails.application.credentials.secret_key_base, true, algorithm: 'HS256')
             user_id = decoded_token[0]['user_id']
             user = User.find_by(id: user_id)
       
             if user
-
-              # Generate a new access token
               new_access_token = encode_token({ user_id: user.id, exp: 12.hours.from_now.to_i }) #Here it is generating the new access token
               render json: { access_token: new_access_token }, status: :ok
             else
-
-              # Return error if user not found
-              render json: { error: 'User not found' }, status: :unauthorized
+              render json: { error: 'User not found' }, status: :unauthorized # Return error if user not found
             end
       
           rescue JWT::ExpiredSignature
