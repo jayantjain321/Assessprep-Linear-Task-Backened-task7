@@ -7,13 +7,22 @@ module Api
 
       # POST /tasks/:task_id/comments  Creates a comment for a specific task
       def create
-        task = Task.find_by(id: params[:task_id])  # Find the task to which the comment is being added
+        task = Task.find_by(id: params[:task_id])
         if task
-          @comment = task.comments.new(comment_params) # Create a new comment associated with the task
-          @comment.user_id = current_user.id  # Associate the comment with the current user
-          @comment.save!  #Save the comment 
-          LogActionService.log_action(@comment.id, current_user.id, :create, 'Comment')
-          render json: { message: 'Comment created successfully', comment: @comment }, status: :created
+          created_comments = []  # Array to hold the created comments
+          params[:comments].each do |comment_data|
+            # Create the comment with text and optional images
+            @comment = task.comments.new(
+              text: comment_data[:text],
+              images: comment_data[:image].present? ? comment_data[:image] : nil
+            )
+            @comment.user_id = current_user.id
+            if @comment.save!
+              LogActionService.log_action(@comment.id, current_user.id, :create, 'Comment')
+              created_comments << @comment  # Add the successfully created comment to the array
+            end
+          end
+          render json: { message: 'Comments created successfully', comments: created_comments }, status: :created  # Return the created comments along with the message
         else
           raise TaskNotFoundError.new
         end
@@ -52,7 +61,7 @@ module Api
 
       # Strong parameters to allow only the permitted attributes
       def comment_params
-        params.require(:comment).permit(:text, :image)
+        params.permit(comments: [:text, image: []])  # Permit the text and optional images
       end
     end
   end
