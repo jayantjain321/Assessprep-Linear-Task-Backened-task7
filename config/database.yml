@@ -56,8 +56,8 @@ production:
   adapter: postgresql
   encoding: unicode
   pool: 15
-  database: mysite_0jl8
-  username: mysite
-  password: e1LfJCM92Df8sMShWbs0OgDy3CRVQe1s
-  host: dpg-csb4fe9u0jms73e332sg-a.oregon-postgres.render.com
+  database: <%= ENV['DATABASE_NAME'] %>
+  username: <%= ENV['DATABASE_USER'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+  host: <%= ENV['DATABASE_HOST'] %>
   port: 5432
