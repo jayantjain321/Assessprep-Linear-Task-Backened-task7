@@ -61,7 +61,9 @@ module Api
 
       # Strong parameters to allow only the permitted attributes
       def comment_params
-        params.permit(comments: [:text, image: []])  # Permit the text and optional images
+        params.require(:comments).map do |comment|
+          comment.permit(:text, images: [])  # Permit :text and an array of :images
+        end.first
       end
     end
   end
