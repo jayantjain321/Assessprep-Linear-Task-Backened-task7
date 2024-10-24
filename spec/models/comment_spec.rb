@@ -18,7 +18,7 @@ RSpec.describe Comment, type: :model do
       
         it "is valid without an image" do
           task = create(:task)
-          comment = build(:comment, task: task, image: nil)
+          comment = build(:comment, task: task, images: [])
           expect(comment).to be_valid
         end
     end

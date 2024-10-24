@@ -13,15 +13,15 @@ RSpec.describe "Comments", type: :request do
     context 'when task exists' do
       it 'creates a new comment for the task' do
         # Define valid attributes for the new comment
-        valid_attributes = { comment: { text: 'New comment text' }, task_id: task.id }
+        valid_attributes = { comments: [{ text: 'New comment text' }], task_id: task.id }
 
         # Make the POST request to create a new comment
         post "/api/v1/tasks/#{task.id}/comments", params: valid_attributes, headers: auth_headers
 
         # Expect a successful response and check the returned message and comment text
         expect(response).to have_http_status(:created)
-        expect(json['message']).to eq('Comment created successfully')
-        expect(json['comment']['text']).to eq('New comment text')
+        expect(json['message']).to eq('Comments created successfully')
+        expect(json['comments'].first['text']).to eq('New comment text')
         expect(Comment.last.user_id).to eq(user.id)  # Check that the comment is associated with the correct user
       end
     end
@@ -85,7 +85,7 @@ RSpec.describe "Comments", type: :request do
     context 'when the comment exists and belongs to the current user' do
       it 'updates the comment' do
         # Define valid attributes for the updated comment
-        valid_attributes = { comment: { text: 'Updated comment text' } }
+        valid_attributes = { comments: [{ text: 'Updated comment text' }], task_id: task.id }
 
         # Make a PUT request to update the comment
         put "/api/v1/comments/#{comment.id}", params: valid_attributes, headers: auth_headers
